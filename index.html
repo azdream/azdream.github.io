@@ -1,7 +1,145 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>코스트코 아이템 검색</title>
+    <style>
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #004c91;
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .search-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        #searchInput:focus {
+            border-color: #004c91;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            background-color: #004c91;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #003366;
+            transform: translateY(-2px);
+        }
+
+        .info-text {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        #resultLink {
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 16px;
+            color: #004c91;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        #resultLink:hover {
+            color: #003366;
+            text-decoration: underline;
+        }
+    </style>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+    <div class="container">
+        <h1>코스트코 아이템 검색</h1>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="아이템 번호 또는 키워드 입력">
+            <button onclick="searchItem()">검색</button>
+        </div>
+        <div class="info-text">
+            아이템 번호는 6자리 (예: 123456)
+        </div>
+        <div id="resultLinkContainer">
+            <a id="resultLink" href="#" target="_blank"></a>
+        </div>
+    </div>
+    <script>
+        document.getElementById("searchInput").addEventListener("keydown", function(event) {
+            // 엔터 키(Enter key)가 눌렸는지 확인합니다.
+            if (event.key === "Enter") {
+                // 기본 엔터 키 동작(폼 전송 등)을 방지합니다.
+                event.preventDefault();
+                // searchItem 함수를 호출하여 검색을 실행합니다.
+                searchItem();
+            }
+        });
+
+        function searchItem() {
+            const searchInput = document.getElementById('searchInput');
+            const searchTerm = searchInput.value.trim();
+            const resultLink = document.getElementById('resultLink');
+
+            if (searchTerm === "") {
+                alert("검색어를 입력해주세요.");
+                return;
+            }
+
+            const isItemNumber = /^\d{6}$/.test(searchTerm);
+            const costcoUrl = isItemNumber 
+                ? `https://www.costco.co.kr/p/${searchTerm}`
+                : `https://www.costco.co.kr/search?q=${encodeURIComponent(searchTerm)}`;
+
+            resultLink.href = costcoUrl;
+            resultLink.textContent = `"${searchTerm}" 상품 페이지로 이동`;
+            
+            resultLink.click();
+        }
+    </script>
 </body>
 </html>
