@@ -3,74 +3,69 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Project2036 Terminal — AI workflow, backend automation, and tmux-based agent experiments by azdream." />
-  <meta property="og:title" content="azdream · Project2036 Terminal" />
-  <meta property="og:description" content="Backend developer building AI agent workflows for real-world operations." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://blog.ethices.com" />
+  <meta name="description" content="Project2036 Terminal — backend automation, AI agent workflows, and practical systems by azdream." />
   <title>azdream · Project2036 Terminal</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <style>
+    :root{color-scheme:dark;--bg:#070b10;--panel:#0b1220;--panel2:#0f172a;--line:#263244;--text:#e5edf7;--muted:#94a3b8;--green:#39ff88;--cyan:#5eead4;--blue:#60a5fa;--yellow:#facc15;--red:#fb7185;--shadow:0 30px 90px rgba(0,0,0,.5)}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Noto Sans KR",sans-serif;color:var(--text);background:radial-gradient(circle at 15% 10%,rgba(94,234,212,.16),transparent 28%),radial-gradient(circle at 90% 12%,rgba(96,165,250,.16),transparent 26%),linear-gradient(180deg,#071014,#070b10 42%,#05070b);min-height:100vh} a{color:inherit;text-decoration:none}.wrap{width:min(1180px,calc(100vw - 32px));margin:0 auto;padding:42px 0 70px}.terminal{border:1px solid var(--line);border-radius:24px;background:rgba(11,18,32,.88);box-shadow:var(--shadow);overflow:hidden}.bar{height:58px;display:grid;grid-template-columns:140px 1fr 120px;align-items:center;padding:0 24px;border-bottom:1px solid var(--line);background:#101827}.dots{display:flex;gap:9px}.dot{width:14px;height:14px;border-radius:50%}.r{background:#ff5f57}.y{background:#febc2e}.g{background:#28c840}.title{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;color:var(--muted);font-size:14px;text-align:center}.online{justify-self:end;border:1px solid rgba(57,255,136,.42);color:var(--green);font:700 12px/1 monospace;padding:9px 13px;border-radius:999px;background:rgba(57,255,136,.08)}.screen{padding:30px 30px 34px;font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace}.muted{color:var(--muted)}.ok{color:var(--green)}.cyan{color:var(--cyan)}.yellow{color:var(--yellow)}.prompt{color:var(--cyan)}.boot{line-height:1.75;font-size:15px;margin-bottom:24px}.hero{display:grid;grid-template-columns:1.25fr .75fr;gap:24px;align-items:start}.hero h1{font-family:Inter,system-ui,"Noto Sans KR",sans-serif;font-size:clamp(38px,5.5vw,76px);letter-spacing:-.06em;line-height:.98;margin:10px 0 20px}.hero p{font-family:Inter,system-ui,"Noto Sans KR",sans-serif;color:var(--muted);font-size:18px;line-height:1.75;margin:0}.badge{display:inline-flex;border:1px solid rgba(57,255,136,.35);color:var(--green);background:rgba(57,255,136,.08);border-radius:999px;padding:8px 12px;font:700 12px/1 monospace;margin-bottom:16px}.side{border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.035);padding:20px}.side h3{margin:0 0 12px;color:var(--cyan);font:700 16px/1.2 monospace}.kv{display:grid;gap:11px}.kv div{display:flex;justify-content:space-between;gap:18px;border-bottom:1px dashed rgba(148,163,184,.22);padding-bottom:10px}.kv span:first-child{color:var(--muted)}.kv span:last-child{color:var(--text);text-align:right}.section-title{font:700 14px/1 monospace;color:var(--cyan);margin:34px 0 14px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{border:1px solid var(--line);border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.02));padding:20px;min-height:190px;transition:.18s ease}.card:hover{transform:translateY(-3px);border-color:rgba(94,234,212,.48);box-shadow:0 16px 50px rgba(0,0,0,.25)}.card .tag{font:700 12px/1 monospace;color:var(--green);margin-bottom:14px}.card h2{font-family:Inter,system-ui,"Noto Sans KR",sans-serif;font-size:22px;letter-spacing:-.03em;margin:0 0 10px}.card p{color:var(--muted);line-height:1.65;margin:0;font-size:15px}.chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}.chip{font:700 12px/1 monospace;border:1px solid rgba(148,163,184,.24);color:#cbd5e1;border-radius:999px;padding:7px 9px;background:rgba(15,23,42,.7)}.timeline{display:grid;gap:12px}.row{display:grid;grid-template-columns:150px 1fr;gap:16px;border:1px solid var(--line);border-radius:16px;padding:16px;background:rgba(255,255,255,.025)}.row strong{color:var(--yellow);font-family:monospace}.row p{margin:0;color:var(--muted);line-height:1.6}.links{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}.link{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:#111827;color:var(--text)}.link:hover{border-color:rgba(57,255,136,.5);color:var(--green)}footer{margin-top:22px;color:var(--muted);font:13px/1.7 monospace;text-align:center}@media(max-width:920px){.bar{grid-template-columns:90px 1fr 90px;padding:0 14px}.title{font-size:11px}.screen{padding:22px}.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr}.hero h1{font-size:42px}}
+  </style>
 </head>
 <body>
-  <div class="noise"></div>
-  <main class="page-shell">
-    <section class="hero-panel" aria-label="Project2036 terminal portfolio">
-      <div class="window-bar">
-        <div class="dots" aria-hidden="true">
-          <span class="dot red"></span>
-          <span class="dot yellow"></span>
-          <span class="dot green"></span>
+  <div class="wrap">
+    <main class="terminal">
+      <div class="bar">
+        <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+        <div class="title">azdream@project2036:~/terminal</div>
+        <div class="online">ONLINE</div>
+      </div>
+      <div class="screen">
+        <div class="boot">
+          <div class="muted">Project2036 Terminal v0.2.0</div>
+          <div class="muted">Loading profile dashboard...</div>
+          <div class="ok">[OK] Backend Systems</div>
+          <div class="ok">[OK] AI Agent Workflows</div>
+          <div class="ok">[OK] Obsidian Knowledge OS</div>
+          <div class="ok">[OK] tmux Agent Runtime</div>
+          <div class="ok">[OK] Human Approval Layer</div>
         </div>
-        <div class="window-title">azdream@project2036:~/terminal</div>
-        <div class="status-pill">ONLINE</div>
+        <section class="hero">
+          <div>
+            <div class="badge">AI OS · Backend · Automation</div>
+            <h1>Building AI workflows for real-world operations.</h1>
+            <p>현실 업무를 자동화하는 백엔드 개발자. Java/Spring 기반 업무 시스템과 AI Agent, Obsidian, tmux를 연결해 반복 업무를 줄이는 구조를 실험합니다.</p>
+            <div class="links">
+              <a class="link" href="https://github.com/azdream" target="_blank" rel="noreferrer">GitHub</a>
+              <a class="link" href="https://blog.ethices.com">blog.ethices.com</a>
+            </div>
+          </div>
+          <aside class="side">
+            <h3>$ whoami</h3>
+            <div class="kv">
+              <div><span>Role</span><span>Backend / AI Workflow</span></div>
+              <div><span>Focus</span><span>Project2036 AMP</span></div>
+              <div><span>Runtime</span><span>tmux + LLM CLI</span></div>
+              <div><span>Principle</span><span>AI is a team.</span></div>
+            </div>
+          </aside>
+        </section>
+        <div class="section-title">$ ls ./categories</div>
+        <section class="grid">
+          <article class="card"><div class="tag">01_BACKEND</div><h2>Enterprise Systems</h2><p>전자결재, 백오피스, 업무 흐름 자동화 경험을 기반으로 안정적인 시스템과 운영 가능한 구조를 설계합니다.</p><div class="chips"><span class="chip">Java</span><span class="chip">Spring</span><span class="chip">Oracle</span></div></article>
+          <article class="card"><div class="tag">02_AI_OS</div><h2>Project2036 AI OS</h2><p>AI를 단일 도구가 아니라 역할·권한·로그·승인을 가진 팀으로 운영하는 개인 AI 운영체계를 만듭니다.</p><div class="chips"><span class="chip">Agent Registry</span><span class="chip">Guardian</span><span class="chip">Circuit Breaker</span></div></article>
+          <article class="card"><div class="tag">03_AMP</div><h2>tmux-agent-amp</h2><p>웹에서 Agent를 등록하고 tmux 세션/윈도우/페인에 배치한 뒤 Obsidian에 기록하는 Agent Management Platform 실험.</p><div class="chips"><span class="chip">tmux</span><span class="chip">CLI Agent</span><span class="chip">Dashboard</span></div></article>
+          <article class="card"><div class="tag">04_BUSINESS</div><h2>Retail Automation</h2><p>OCR → 상품 분석 → 가격 조사 → 등록 초안 → 검수까지 이어지는 상품 운영 자동화 파이프라인을 설계합니다.</p><div class="chips"><span class="chip">OCR</span><span class="chip">Pricing</span><span class="chip">Listing</span></div></article>
+          <article class="card"><div class="tag">05_KNOWLEDGE</div><h2>Obsidian Knowledge OS</h2><p>학습, 업무, 사업 아이디어를 재사용 가능한 지식 자산으로 만들고 AI가 읽을 수 있는 Vault 구조로 정리합니다.</p><div class="chips"><span class="chip">Obsidian</span><span class="chip">Wiki</span><span class="chip">Logs</span></div></article>
+          <article class="card"><div class="tag">06_PHILOSOPHY</div><h2>Human Approval Layer</h2><p>좋은 자동화는 많이 돌리는 것이 아니라, 위험할 때 멈추고 사람이 승인할 수 있는 구조라고 믿습니다.</p><div class="chips"><span class="chip">Review</span><span class="chip">Safety</span><span class="chip">Traceability</span></div></article>
+        </section>
+        <div class="section-title">$ cat ./timeline.log</div>
+        <section class="timeline">
+          <div class="row"><strong>NOW</strong><p>Project2036 AMP — tmux 기반 LLM CLI Agent 관리 플랫폼 설계 중.</p></div>
+          <div class="row"><strong>NEXT</strong><p>Agent 등록, 배치, Health Check, Obsidian 동기화를 웹에서 처리하는 MVP 구축.</p></div>
+          <div class="row"><strong>LONG RUN</strong><p>업무, 사업, 지식, 자동화를 연결하는 개인 AI Operating System으로 확장.</p></div>
+        </section>
       </div>
-
-      <div class="terminal" id="terminal" role="log" aria-live="polite">
-        <div class="line muted">Project2036 Terminal v0.1.0</div>
-        <div class="line muted">Booting AI workflow console...</div>
-        <div class="line ok">[OK] Backend Systems</div>
-        <div class="line ok">[OK] AI Agent Workflows</div>
-        <div class="line ok">[OK] Obsidian Knowledge OS</div>
-        <div class="line ok">[OK] tmux Agent Runtime</div>
-        <div class="line ok">[OK] Human Approval Layer</div>
-        <br />
-        <div class="line highlight">Welcome to Project2036 Terminal.</div>
-        <div class="line">Type <span class="cmd">help</span> to begin.</div>
-      </div>
-
-      <form class="command-row" id="command-form" autocomplete="off">
-        <span class="prompt">azdream@project2036:~$</span>
-        <input id="command-input" name="command" type="text" spellcheck="false" autofocus aria-label="terminal command input" />
-      </form>
-    </section>
-
-    <aside class="side-panel" aria-label="profile summary">
-      <div class="badge">AI OS · Backend · Automation</div>
-      <h1>Backend developer building AI agent workflows for real-world operations.</h1>
-      <p>
-        현실 업무를 자동화하는 백엔드 개발자. Java/Spring 기반 업무 시스템과 AI Agent,
-        Obsidian, tmux를 연결해 반복 업무를 줄이는 구조를 실험합니다.
-      </p>
-      <div class="quick-links">
-        <a href="https://github.com/azdream" target="_blank" rel="noreferrer">GitHub</a>
-        <a href="https://blog.ethices.com" aria-current="page">blog.ethices.com</a>
-      </div>
-      <div class="cards">
-        <div class="card">
-          <span>Current Focus</span>
-          <strong>Project2036 AMP</strong>
-        </div>
-        <div class="card">
-          <span>Philosophy</span>
-          <strong>AI is a team.</strong>
-        </div>
-      </div>
-    </aside>
-  </main>
-
-  <script src="script.js"></script>
+    </main>
+    <footer>azdream@project2036 · Backend Automation · AI Agent Workflows · 2026</footer>
+  </div>
 </body>
 </html>
