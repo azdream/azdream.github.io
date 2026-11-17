@@ -1,31 +1,22 @@
 # azdream.github.io
 
-Terminal-style GitHub Pages homepage for blog.ethices.com.
+Terminal-style GitHub Pages homepage for [blog.ethices.com](https://blog.ethices.com).
 
-## Concept
+## Overview
 
-A lightweight personal developer page that presents profile, projects, tech stack, and AI workflow experiments as an interactive terminal.
+A lightweight static personal developer dashboard (`Project2036 Terminal v0.3.0`) presenting backend systems, multi-agent orchestration, AI governance, knowledge/ontology workflows, and practical web utilities.
 
-## Commands
+## Structure
 
-- help
-- about
-- stack
-- projects
-- project2036
-- amp
-- philosophy
-- contact
-- boot
-- clear
+- `index.html` — Project2036 Terminal dashboard (`blog.ethices.com`)
+- `csi/index.html` — Costco Korea item number (6-digit) & keyword quick search utility (`/csi/`)
+- `CNAME` — Custom domain configuration (`blog.ethices.com`)
+- `style.css`, `script.js` — Earlier interactive terminal prototype assets (retained for reference)
 
-## Files
+## Local Preview
 
-- index.html
-- style.css
-- script.js
-- CNAME
+```bash
+python3 -m http.server 8000
+```
 
-## Local preview
-
-Run a simple static server and open the local URL in a browser.
+Open `http://localhost:8000/` and `http://localhost:8000/csi/` in a browser.
