@@ -1,17 +1,14 @@
 # azdream.github.io
 
-Terminal-style GitHub Pages homepage for [blog.ethices.com](https://blog.ethices.com).
+Personal developer profile & interactive showcase for [blog.ethices.com](https://blog.ethices.com), aligned visually with the [azdream](https://github.com/azdream) GitHub profile README.
 
-## Overview
+## Features
 
-A lightweight static personal developer dashboard (`Project2036 Terminal v0.3.0`) presenting backend systems, multi-agent orchestration, AI governance, knowledge/ontology workflows, and practical web utilities.
-
-## Structure
-
-- `index.html` — Project2036 Terminal dashboard (`blog.ethices.com`)
-- `csi/index.html` — Costco Korea item number (6-digit) & keyword quick search utility (`/csi/`)
-- `CNAME` — Custom domain configuration (`blog.ethices.com`)
-- `style.css`, `script.js` — Earlier interactive terminal prototype assets (retained for reference)
+- **Aurora Wave & Mascot Showcase**: Animated aurora wave banner/footer paired with custom sparkling chibi mascot stickers (`assets/mascot-coding.gif`, `assets/mascot-cheer.gif`) and interactive sparkle/confetti particle bursts (`#sparkle-canvas`).
+- **Dark / Light Theme Sync**: One-click theme switcher persisted in `localStorage`, synchronizing the Contribution Snake SVG (`Platane/snk` output branch) across themes.
+- **GitHub Live Pulse & Interactive Filters**: Integrated trophy wall, GitHub stats & streak cards, profile summary & UTC+9 rhythm chart, 30-day activity wave, interactive stack/repository category filters, and live GitHub REST API hydration.
+- **Portals & Public Work**: Connects directly to [ethices.com](https://ethices.com) and public repositories.
+- Standalone `/csi/` search helper remains available at `csi/index.html`.
 
 ## Local Preview
 
@@ -19,4 +16,4 @@ A lightweight static personal developer dashboard (`Project2036 Terminal v0.3.0`
 python3 -m http.server 8000
 ```
 
-Open `http://localhost:8000/` and `http://localhost:8000/csi/` in a browser.
+Open `http://localhost:8000/`.

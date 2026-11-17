@@ -1,175 +1,268 @@
-const terminal = document.querySelector('#terminal');
-const form = document.querySelector('#command-form');
-const input = document.querySelector('#command-input');
+(() => {
+  const SNAKE_DARK =
+    "https://raw.githubusercontent.com/azdream/azdream/output/github-contribution-grid-snake-dark.svg";
+  const SNAKE_LIGHT =
+    "https://raw.githubusercontent.com/azdream/azdream/output/github-contribution-grid-snake.svg";
 
-const state = {
-  history: [],
-  historyIndex: -1,
-};
+  const root = document.documentElement;
+  const themeBtn = document.getElementById("theme-toggle");
+  const themeIcon = document.getElementById("theme-icon");
+  const snakeImg = document.getElementById("snake-img");
 
-const commands = {
-  help: {
-    description: 'Show available commands',
-    run: () => [
-      ['highlight', 'Available commands'],
-      ['', '  about        Who is azdream?'],
-      ['', '  stack        Tech stack'],
-      ['', '  projects     Featured projects'],
-      ['', '  project2036  Long-term operating system'],
-      ['', '  amp          tmux-agent-amp concept'],
-      ['', '  philosophy   Core working principles'],
-      ['', '  contact      Links'],
-      ['', '  boot         Replay boot sequence'],
-      ['', '  clear        Clear terminal'],
-    ],
-  },
-  about: {
-    description: 'Profile summary',
-    run: () => [
-      ['highlight', 'azdream'],
-      ['', 'Backend developer focused on enterprise workflow systems, automation, and AI-assisted operations.'],
-      ['', 'I build practical systems that reduce repetitive work and make decision-making easier.'],
-      ['', '요약: 현실 업무를 자동화하는 백엔드 개발자. AI를 도구가 아니라 팀처럼 설계합니다.'],
-    ],
-  },
-  stack: {
-    description: 'Tech stack',
-    run: () => [
-      ['highlight', 'Tech Stack'],
-      ['cmd', 'Backend'],
-      ['', '  Java · Spring Boot · Oracle · PostgreSQL · Tomcat · Linux'],
-      ['cmd', 'Automation'],
-      ['', '  Make · Telegram Bot · Blogger · GitHub Pages · Scripts'],
-      ['cmd', 'AI / Agent Ops'],
-      ['', '  Claude Code · Codex · Obsidian · tmux · MCP ideas · Agent Registry'],
-    ],
-  },
-  projects: {
-    description: 'Featured projects',
-    run: () => [
-      ['highlight', 'Featured Projects'],
-      ['cmd', '1. Project2036 AMP'],
-      ['', '   Web-based Agent Management Platform for tmux-based LLM CLI agents.'],
-      ['cmd', '2. AI Product Listing Pipeline'],
-      ['', '   OCR → Catalog → Pricing → Review → Listing workflow for retail automation.'],
-      ['cmd', '3. Enterprise Workflow Automation'],
-      ['', '   Backend patterns and automation notes from real business systems.'],
-    ],
-  },
-  project2036: {
-    description: 'Project2036 mission',
-    run: () => [
-      ['highlight', 'Project2036'],
-      ['', 'A long-term personal operating system for work, business, health, and assets.'],
-      ['', 'Mission: build better experiences, automate repetitive work, and create durable freedom.'],
-      ['', 'Core values: wisdom · responsibility · persistence · joy · fairness'],
-    ],
-  },
-  amp: {
-    description: 'tmux-agent-amp concept',
-    run: () => [
-      ['highlight', 'tmux-agent-amp'],
-      ['', 'A web-based control plane for tmux-based LLM CLI agents.'],
-      ['cmd', 'MVP Flow'],
-      ['', '  Register Agent → choose tmux session/window/pane → launch CLI → sync Obsidian → health check'],
-      ['cmd', 'Modules'],
-      ['', '  Agent Registry · tmux Runtime · Web Terminal · Health Check · Botsitting Log · Circuit Breaker'],
-    ],
-  },
-  philosophy: {
-    description: 'Working principles',
-    run: () => [
-      ['highlight', 'Philosophy'],
-      ['', 'AI is not just a tool. AI is a team.'],
-      ['', 'Good automation is not about running more. It is about reducing human babysitting.'],
-      ['', 'Everything is observable. Everything is replaceable. Everything is measured.'],
-    ],
-  },
-  contact: {
-    description: 'Contact links',
-    run: () => [
-      ['highlight', 'Contact'],
-      ['', 'GitHub: https://github.com/azdream'],
-      ['', 'Site:   https://blog.ethices.com'],
-    ],
-  },
-  boot: {
-    description: 'Replay boot sequence',
-    run: () => [
-      ['muted', 'Project2036 Terminal v0.1.0'],
-      ['muted', 'Booting AI workflow console...'],
-      ['ok', '[OK] Backend Systems'],
-      ['ok', '[OK] AI Agent Workflows'],
-      ['ok', '[OK] Obsidian Knowledge OS'],
-      ['ok', '[OK] tmux Agent Runtime'],
-      ['ok', '[OK] Human Approval Layer'],
-      ['highlight', 'Welcome back. Type help to begin.'],
-    ],
-  },
-};
-
-function appendLine(text = '', className = '') {
-  const line = document.createElement('div');
-  line.className = `line ${className}`.trim();
-  line.textContent = text;
-  terminal.appendChild(line);
-  terminal.scrollTop = terminal.scrollHeight;
-}
-
-function appendOutput(rows) {
-  rows.forEach(([className, text]) => appendLine(text, className));
-}
-
-function runCommand(rawCommand) {
-  const command = rawCommand.trim().toLowerCase();
-  if (!command) return;
-
-  appendLine(`azdream@project2036:~$ ${rawCommand}`, 'prompt');
-
-  if (command === 'clear') {
-    terminal.innerHTML = '';
-    return;
+  function applyTheme(theme) {
+    root.setAttribute("data-theme", theme);
+    if (themeIcon) themeIcon.textContent = theme === "dark" ? "🌙" : "☀️";
+    if (snakeImg) snakeImg.src = theme === "dark" ? SNAKE_DARK : SNAKE_LIGHT;
+    try {
+      localStorage.setItem("azdream-theme", theme);
+    } catch (_) {}
   }
 
-  const entry = commands[command];
-  if (!entry) {
-    appendLine(`command not found: ${rawCommand}`, 'error');
-    appendLine('Type help to see available commands.', 'muted');
-    return;
+  let savedTheme = "dark";
+  try {
+    const stored = localStorage.getItem("azdream-theme");
+    if (stored === "light" || stored === "dark") savedTheme = stored;
+  } catch (_) {}
+  applyTheme(savedTheme);
+
+  themeBtn?.addEventListener("click", () => {
+    const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    applyTheme(next);
+    const rect = themeBtn.getBoundingClientRect();
+    spawnBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 20);
+  });
+
+  // Live KST Clock (UTC+9)
+  const clockEl = document.getElementById("kst-clock");
+  function updateClock() {
+    if (!clockEl) return;
+    try {
+      const now = new Date();
+      const fmt = new Intl.DateTimeFormat("ko-KR", {
+        timeZone: "Asia/Seoul",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      }).format(now);
+      clockEl.textContent = `KST ${fmt}`;
+    } catch (_) {}
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // Typewriter Taglines
+  const typingEl = document.getElementById("typing-text");
+  const lines = [
+    "Hello! I'm Chris Um (@azdream) from South Korea ✨",
+    "Enterprise Back-office, APIs, Data Pipelines & Automation ⚡",
+    "ETHICES — 선의 51%가 미래를 만든다 (51% of Good) 🌈",
+    "AI is not just a tool. AI is a team. 🚀",
+  ];
+  let lineIdx = 0;
+  let charIdx = lines[0].length;
+  let deleting = true;
+
+  function stepTyping() {
+    if (!typingEl) return;
+    const current = lines[lineIdx];
+    if (!deleting) {
+      charIdx++;
+      typingEl.textContent = current.slice(0, charIdx);
+      if (charIdx >= current.length) {
+        deleting = true;
+        setTimeout(stepTyping, 2200);
+        return;
+      }
+      setTimeout(stepTyping, 48);
+    } else {
+      charIdx--;
+      typingEl.textContent = current.slice(0, charIdx);
+      if (charIdx <= 0) {
+        deleting = false;
+        lineIdx = (lineIdx + 1) % lines.length;
+        setTimeout(stepTyping, 320);
+        return;
+      }
+      setTimeout(stepTyping, 24);
+    }
+  }
+  if (typingEl) setTimeout(stepTyping, 2600);
+
+  // Tech Stack Category Filter
+  const stackBtns = document.querySelectorAll("[data-stack-filter]");
+  const stackChips = document.querySelectorAll("[data-stack-cat]");
+  stackBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const target = btn.getAttribute("data-stack-filter");
+      stackBtns.forEach((b) => b.classList.toggle("is-active", b === btn));
+      stackChips.forEach((chip) => {
+        const match = target === "all" || chip.getAttribute("data-stack-cat") === target;
+        chip.classList.toggle("is-dim", !match);
+        chip.classList.toggle("is-lit", target !== "all" && match);
+      });
+    });
+  });
+
+  // Repository Category Filter
+  const repoBtns = document.querySelectorAll("[data-repo-filter]");
+  const repoCards = document.querySelectorAll("[data-repo]");
+  repoBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const cat = btn.getAttribute("data-repo-filter");
+      repoBtns.forEach((b) => b.classList.toggle("is-active", b === btn));
+      repoCards.forEach((card) => {
+        const match = cat === "all" || card.getAttribute("data-cat") === cat;
+        card.classList.toggle("is-hidden", !match);
+      });
+    });
+  });
+
+  // Floating Sparkle & Confetti Particle Canvas
+  const canvas = document.getElementById("sparkle-canvas");
+  const ctx = canvas?.getContext("2d");
+  const reducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  const palette = ["#ec4899", "#fb923c", "#facc15", "#22d3ee", "#a78bfa", "#34d399"];
+  const particles = [];
+
+  function resizeCanvas() {
+    if (!canvas) return;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener("resize", resizeCanvas);
+
+  function spawnBurst(x, y, count = 28) {
+    if (!ctx || reducedMotion) return;
+    for (let i = 0; i < count; i++) {
+      const ang = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.45;
+      const spd = 2.0 + Math.random() * 5.2;
+      particles.push({
+        x,
+        y,
+        vx: Math.cos(ang) * spd,
+        vy: Math.sin(ang) * spd - 1.5,
+        size: 3.5 + Math.random() * 4.5,
+        rot: Math.random() * Math.PI,
+        vrot: (Math.random() - 0.5) * 0.2,
+        life: 1.0,
+        decay: 0.015 + Math.random() * 0.014,
+        color: palette[Math.floor(Math.random() * palette.length)],
+        shape: Math.random() > 0.45 ? "star" : "rect",
+      });
+    }
   }
 
-  appendOutput(entry.run());
-}
-
-form.addEventListener('submit', (event) => {
-  event.preventDefault();
-  const value = input.value;
-  if (value.trim()) {
-    state.history.push(value);
-    state.historyIndex = state.history.length;
-    runCommand(value);
-  }
-  input.value = '';
-});
-
-input.addEventListener('keydown', (event) => {
-  if (event.key === 'ArrowUp') {
-    event.preventDefault();
-    if (state.history.length === 0) return;
-    state.historyIndex = Math.max(0, state.historyIndex - 1);
-    input.value = state.history[state.historyIndex] || '';
+  function drawStar(cx, cy, r, rot, color, alpha) {
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(rot);
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    for (let i = 0; i < 8; i++) {
+      const ang = (i * Math.PI) / 4;
+      const rad = i % 2 === 0 ? r : r * 0.36;
+      const px = Math.cos(ang) * rad;
+      const py = Math.sin(ang) * rad;
+      if (i === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
   }
 
-  if (event.key === 'ArrowDown') {
-    event.preventDefault();
-    if (state.history.length === 0) return;
-    state.historyIndex = Math.min(state.history.length, state.historyIndex + 1);
-    input.value = state.history[state.historyIndex] || '';
+  function tickParticles() {
+    if (!ctx || !canvas) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.11;
+      p.rot += p.vrot;
+      p.life -= p.decay;
+      if (p.life <= 0) {
+        particles.splice(i, 1);
+        continue;
+      }
+      if (p.shape === "star") {
+        drawStar(p.x, p.y, p.size, p.rot, p.color, p.life);
+      } else {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.globalAlpha = p.life;
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 3, p.size, (p.size * 2) / 3);
+        ctx.restore();
+      }
+    }
+    requestAnimationFrame(tickParticles);
   }
-});
+  if (!reducedMotion && ctx) requestAnimationFrame(tickParticles);
 
-document.addEventListener('click', () => input.focus());
+  function bindBurstTrigger(el, count = 34) {
+    el?.addEventListener("click", () => {
+      const rect = el.getBoundingClientRect();
+      spawnBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, count);
+    });
+  }
 
-setTimeout(() => {
-  appendLine('Tip: try `amp`, `projects`, or `philosophy`.', 'muted');
-}, 650);
+  bindBurstTrigger(document.getElementById("hero-spark-btn"), 38);
+  bindBurstTrigger(document.getElementById("finale-spark-btn"), 52);
+  bindBurstTrigger(document.querySelector(".mascot-img"), 30);
+  bindBurstTrigger(document.querySelector(".mascot-cheer"), 42);
+
+  // Subtle initial celebratory burst around hero mascot once loaded
+  window.addEventListener("load", () => {
+    const heroMascot = document.querySelector(".mascot-img");
+    if (heroMascot) {
+      const rect = heroMascot.getBoundingClientRect();
+      if (rect.top < window.innerHeight) {
+        spawnBurst(rect.left + rect.width / 2, rect.top + rect.height / 2, 22);
+      }
+    }
+  });
+
+  // Live GitHub Public Profile & Repo Hydration (graceful fallback if rate-limited)
+  async function hydrateGitHub() {
+    try {
+      const [userRes, reposRes] = await Promise.all([
+        fetch("https://api.github.com/users/azdream"),
+        fetch("https://api.github.com/users/azdream/repos?per_page=100"),
+      ]);
+      if (userRes.ok) {
+        const user = await userRes.json();
+        const followersEl = document.getElementById("stat-followers");
+        const reposEl = document.getElementById("stat-repos");
+        if (followersEl && typeof user.followers === "number") {
+          followersEl.textContent = String(user.followers);
+        }
+        if (reposEl && typeof user.public_repos === "number") {
+          reposEl.textContent = String(user.public_repos);
+        }
+      }
+      if (reposRes.ok) {
+        const repos = await reposRes.json();
+        if (Array.isArray(repos)) {
+          const totalStars = repos.reduce((acc, r) => acc + (r.stargazers_count || 0), 0);
+          const starsEl = document.getElementById("stat-stars");
+          if (starsEl) starsEl.textContent = String(totalStars);
+
+          const byName = new Map(repos.map((r) => [r.name, r]));
+          repoCards.forEach((card) => {
+            const name = card.getAttribute("data-repo");
+            const data = name ? byName.get(name) : null;
+            if (!data) return;
+            const starBadge = card.querySelector("[data-repo-stars]");
+            if (starBadge) starBadge.textContent = `★ ${data.stargazers_count ?? 0}`;
+          });
+        }
+      }
+    } catch (_) {}
+  }
+  hydrateGitHub();
+})();
